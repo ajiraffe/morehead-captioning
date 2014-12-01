@@ -1,0 +1,10 @@
+{
+  "firebase": "morehead-captioning",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ],
+  "rules": "rules.json"
+}
