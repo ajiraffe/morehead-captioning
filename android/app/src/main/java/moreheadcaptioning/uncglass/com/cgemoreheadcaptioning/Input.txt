@@ -10,31 +10,20 @@ TEXT ACROSS DOME: Sometime in the future....  We hear footsteps echoing in a
 
 00:01:06;03 LARSON(V.O.)
  I thought I was done with space...
-The corridor is revealed - it is in a very modern, futuristic office building. We are seeing the corridor from the POV of LARSON, OR in an aerial shot of him walking toward an elevator bank. Somewhere there is a sign and slick logo: 
-00:00:55;00
-TROUT ENTERPRISES.
 
 00:01:09;13 LARSON (V.O.)
 ...until I got the call from Warren Trout.
-LARSON in elevator; he pushes a button for Penthouse; maybe it's his POV and we just see his hand and the bank of elevator buttons, with "Penthouse" at the top.
+
 00:01:13;23 LARSON (V.O.)
 I'd hung up my wings from Space Fleet Command 10 years ago. 
 
 00:01:18;11 LARSON (V.O.)
 But when a multi-billionaire like Trout calls to discuss a 'top-secret world-changing space mission', you get ... curious.
 
-The elevator zooms up - it is a glass exterior elevator and we experience the extent of TROUT's operation spread below as elevator rises to the top floor. Doors open to reveal elegant but sparse office of WARREN TROUT.
-INT. trout office
-TROUT is on phone. 
-A young female IT ASSISTANT is working at a computer.
-
 
 00:01:40:28 TROUT 
-(into phone)
 Absolutely, Arturo, no problem.
-(to IT ASSISTANT)
-Pull up the year-end figures for South America and forward them to Arturo. 
-(into phone)
+Pull up the year-end figures for South America and forward them to Arturo.
 Arturo? They're on their way.
 
 
@@ -45,31 +34,23 @@ Mr. Trout? Jack Larson.
 
 00:01:50;29 TROUT 
 I know. 
-(motions LARSON to sit)
-Larson, I'll get straight to the point. 
-(to IT ASSISTANT)
-Bring up the eco-presentation.  
+Larson, I'll get straight to the point.
+Bring up the eco-presentation.
 
 00:01:55;20 IT ASSISTANT
 Which one? Global Disasters Three or -- ?
 
 00:01:58;19 Trout
 Never mind, I'll do it. Leave us.
-IT ASSISTANT throws up her hands, starts to exit.
 
 00:02:03;27 IT ASSISTANT
-(dryly, to LARSON)
 Nice to meet you.
 
 00:02:05;08 LARSON
 Likewise.
 
 00:02:06;17 IT ASSISTANT
-(under her breath, as she passes him)
 Good luck. 
-
-LARSON looks after her as TROUT punches code into computer. Visuals take shape on a screen behind TROUT's desk.
-
 
 00:02:11;23 TROUT
 For centuries, humans have been bent on destroying the planet. Turning lakes into deserts... 

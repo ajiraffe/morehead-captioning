@@ -34,10 +34,12 @@ public class TextRenderer implements Runnable{
         try {
             BufferedReader in = new BufferedReader(new FileReader(filepath + "Output.txt"));
             readInput(mQueue, in);
+            Log.w("HELLO 2 FROM TEXTREADER", "FINISHED OUTPUT");
         } catch(Exception e) {
+            Log.w("HELLO 2 FROM TEXTREADER", "GOT CAUGHT IN POPULATE QUEUE");
             ScriptParsing.parseInput();							// Transforms unaltered script into a formated output file
             try {
-                BufferedReader in = new BufferedReader(new FileReader("Output.txt"));
+                BufferedReader in = new BufferedReader(new FileReader(filepath + "Output.txt"));
                 readInput(mQueue, in);
             } catch(FileNotFoundException err) {
                 e.printStackTrace();

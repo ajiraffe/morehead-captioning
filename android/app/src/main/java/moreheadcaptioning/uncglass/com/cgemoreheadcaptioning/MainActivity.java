@@ -1,6 +1,9 @@
 package moreheadcaptioning.uncglass.com.cgemoreheadcaptioning;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -10,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -43,74 +47,64 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
+        final Context mContext = this;
+        card = new CardBuilder(this, CardBuilder.Layout.TEXT);
+
         //Set up Firebase
         Firebase.setAndroidContext( this );
         firebaseRef = new Firebase("https://morehead-captioning.firebaseio.com/");
 
-        //mView = buildView();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        card = new CardBuilder(this, CardBuilder.Layout.TEXT);
-
-        card.setText(R.string.hello_world);
-
-        Queue<Display> queue = new LinkedQueue<Display>();
-        tr = new TextRenderer(card, queue);
-
-//        mCardScroller = new CardScrollView(this);
-//        mCardScroller.setAdapter(new CardScrollAdapter() {
-//            @Override
-//            public int getCount() {
-//                return 1;
-//            }
-//
-//            @Override
-//            public Object getItem(int position) {
-//                return mView;
-//            }
-//
-//            @Override
-//            public View getView(int position, View convertView, ViewGroup parent) {
-//                return mView;
-//            }
-//
-//            @Override
-//            public int getPosition(Object item) {
-//                if (mView.equals(item)) {
-//                    return 0;
-//                }
-//                return AdapterView.INVALID_POSITION;
-//            }
-//        });
-//        // Handle the TAP event.
-//        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                // Plays disallowed sound to indicate that TAP actions are not supported.
-//                AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//                am.playSoundEffect(Sounds.DISALLOWED);
-//            }
-//        });
-
-
-
-
-        tr.populateQueue();
-
-        Thread textThread = new Thread( tr );
-        textThread.start();
-
-        final Context mContext = this;
-        Runnable updateUI = new Runnable(){
-            public void run(){
-                ((Activity) mContext).setContentView(card.getView());
-                mHandler.postDelayed(this, 100);
+        firebaseRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.w("HELLO HELLO HELLO", "CHILD WAS ADDED");
             }
-        };
 
-        mHandler.postDelayed(updateUI, 100);
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.w("HELLO HELLO HELLO", dataSnapshot.getValue().toString());
+                if ( dataSnapshot.getValue().equals("Solar System Odyssey") ) {
+                    Queue<Display> queue = new LinkedQueue<Display>();
+                    tr = new TextRenderer(card, queue);
 
-        //setContentView(mView);
+                    tr.populateQueue();
+
+                    Thread textThread = new Thread(tr);
+                    textThread.start();
+
+
+                    Runnable updateUI = new Runnable() {
+                        public void run() {
+                            ((Activity) mContext).setContentView(card.getView());
+                            mHandler.postDelayed(this, 100);
+                        }
+                    };
+
+                    mHandler.postDelayed(updateUI, 100);
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mView = buildView();
+        Log.w("HELLO HELLO HELLO", "SETTING THE DEFAULT VIEW");
+        setContentView(mView);
     }
 
     @Override
@@ -133,10 +127,7 @@ public class MainActivity extends Activity {
 
         CardBuilder card = new CardBuilder(this, CardBuilder.Layout.TEXT);
 
-        card.setText(R.string.hello_world);
-
-        Queue<Display> queue = new LinkedQueue<Display>();
-        tr = new TextRenderer(card, queue);
+        card.setText("Waiting for a show to play...");
 
         return card.getView();
     }

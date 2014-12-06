@@ -7,7 +7,6 @@ $(document).ready(function() {
 
   var messagesRef = new Firebase('https://morehead-captioning.firebaseio.com/');
 
-
   /*
   * Register DOM elements
   *
@@ -29,17 +28,21 @@ $(document).ready(function() {
   * message are added to Firebase.
   */
 
-  messagesRef.limitToLast(10).on('child_added', function (snapshot) {
+  messagesRef.child("shows").limitToLast(10).on('child_added', function (snapshot) {
     //GET DATA
     var data = snapshot.val();
-    var username = data.name || "anonymous";
-    var message = data.text;
 
     //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
     var messageElement = $("<li>");
     var nameElement = $("<strong class='example-chat-username'></strong>");
-    nameElement.text(username);
-    messageElement.text(message).prepend(nameElement);
+    nameElement.text(data);
+    messageElement.text("").prepend(nameElement);
+    messageElement.click( function() {
+      //console.log( "it has been clicked" );
+      messagesRef.child('playing').set( "" );
+      messagesRef.child('playing').set( data );
+      $("footer").text("Now playing... " + data)
+    });
 
     //ADD MESSAGE TO LIST
     $messages.append(messageElement);
@@ -47,7 +50,6 @@ $(document).ready(function() {
     //SCROLL TO BOTTOM OF CHAT BOX
     $messages[0].scrollTop = $messages[0].scrollHeight;
   });
-
 
   /*
   * Listen for user input
@@ -64,7 +66,7 @@ $(document).ready(function() {
 
     // SAVE MESSAGE WHEN 'ENTER' IS PRESSED
     if (e.keyCode == 13 && message.length) {
-      messagesRef.push({name:username, text:message});
+      messagesRef.child('playing').set( message );
       $newMessage.val('');
     }
   });
