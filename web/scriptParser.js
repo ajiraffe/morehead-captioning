@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+var transcriptGlobal;
+
 //remove nulls
 function cleanArray(actual) {
     var newArray = [];
@@ -33,62 +35,80 @@ function getTime(timeStr) {
 }
 
 //function to do the actual reading and parsing
-function scriptJSON(file){
-    fs.readFile(file, 'utf8', function(err, data) {
-            if (err) {
-                return console.log(err);
-            }
+function scriptJSON(file, finishedCallback){
+    function returnVar(retval){
+        return retval;
+    }
+    var retScript;
+    fs.readFile(file, 'utf8',
+        function(err, data) {
+                if (err) {
+                    return console.log(err);
+                }
 
-            var transcript = [];
+                var transcript = [];
 
-            var lines = data.split("\n");
-            lines = cleanArray(lines);
+                var lines = data.split("\n");
+                lines = cleanArray(lines);
 
-            //loop thru all lines, pushing json objects containing times and utterances
-            var utteranceObj = {};
-            for (var i = 0; i < lines.length - 2; i++) {
-                var time = getTime(lines[i]);
-                if (time) {
-                    //if we already have an uttObj, then push it and continue
-                    if (Object.keys(utteranceObj).length !== 0) {
-                        transcript.push(utteranceObj);
-                        utteranceObj = {};
-                    }
-
-                    //make a new uttObj
-                    utteranceObj.time = time;
-
-                    //loop thru proceeding lines to get message
-                    i++;
-                    var utterance = lines[i];
-                    //while the lines aren't times, append to the uttObj message
-                    while (utterance && !getTime(utterance)) {
-                        var append;
-                        if (utteranceObj.utterance) {
-                            utteranceObj.utterance = utteranceObj.utterance +
-                                utterance + "\n";
-                        } else {
-                            utteranceObj.utterance = utterance + "\n";
+                //loop thru all lines, pushing json objects containing times and utterances
+                var utteranceObj = {};
+                for (var i = 0; i < lines.length - 2; i++) {
+                    var time = getTime(lines[i]);
+                    if (time) {
+                        //if we already have an uttObj, then push it and continue
+                        if (Object.keys(utteranceObj).length !== 0) {
+                            transcript.push(utteranceObj);
+                            utteranceObj = {};
                         }
 
+                        //make a new uttObj
+                        utteranceObj.time = time;
+
+                        //loop thru proceeding lines to get message
                         i++;
-                        utterance = lines[i];
-                    }
+                        var utterance = lines[i];
+                        //while the lines aren't times, append to the uttObj message
+                        while (utterance && !getTime(utterance)) {
+                            var append;
+                            if (utteranceObj.utterance) {
+                                utteranceObj.utterance = utteranceObj.utterance +
+                                    utterance + "\n";
+                            } else {
+                                utteranceObj.utterance = utterance + "\n";
+                            }
 
-                    if (i == lines.length) {
-                        transcript.push(utteranceObj);
-                    }
+                            i++;
+                            utterance = lines[i];
+                        }
 
-                    //finally, i will always point to a time, so go back one
-                    i--;
+                        if (i == lines.length) {
+                            transcript.push(utteranceObj);
+                        }
+
+                        //finally, i will always point to a time, so go back one
+                        i--;
+                    }
                 }
-            }
 
-            console.log(JSON.stringify(transcript[transcript.length -
-                1]));
+                // console.log(JSON.stringify(transcript[transcript.length -
+                //     1]));
+
+                //retScript = transcript;
+                //transcriptGlobal = transcript;
+                finishedCallback(transcript);
+                //console.log(transcript.length);
+
+            });
+
+            // console.log(retScript.length);
+            // return retScript;
+
+    }
+
+//finally, do the parsing, calling the callback to print the parsed stuff
+    scriptJSON('./MPSCSSRev_13_ShootingScript_TIME_CODE_reformat.txt',
+        function(trans){
+             console.log(JSON.stringify(trans));
         }
     );
-
-    //finally, do the parsing
-    console.log(scriptJSON('./MPSCSSRev_13_ShootingScript_TIME_CODE_reformat.txt'));
-}
