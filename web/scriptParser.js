@@ -1,7 +1,5 @@
 var fs = require('fs');
 
-var transcriptGlobal;
-
 //remove nulls
 function cleanArray(actual) {
     var newArray = [];
@@ -29,13 +27,12 @@ function getTime(timeStr) {
             return time;
         }
     }
-
     //not a vaild time, return null
     return null;
 }
 
 //function to do the actual reading and parsing
-function scriptJSON(file, finishedCallback){
+function getScriptJSON(file, finishedCallback){
     function returnVar(retval){
         return retval;
     }
@@ -91,24 +88,14 @@ function scriptJSON(file, finishedCallback){
                     }
                 }
 
-                // console.log(JSON.stringify(transcript[transcript.length -
-                //     1]));
-
-                //retScript = transcript;
-                //transcriptGlobal = transcript;
                 finishedCallback(transcript);
-                //console.log(transcript.length);
+        });
+}
 
-            });
-
-            // console.log(retScript.length);
-            // return retScript;
-
-    }
+//define the callback for our function
+function uploadTranscript(transcript){
+    console.log(JSON.stringify(trans));
+}
 
 //finally, do the parsing, calling the callback to print the parsed stuff
-    scriptJSON('./MPSCSSRev_13_ShootingScript_TIME_CODE_reformat.txt',
-        function(trans){
-             console.log(JSON.stringify(trans));
-        }
-    );
+getScriptJSON('./MPSCSSRev_13_ShootingScript_TIME_CODE_reformat.txt', uploadTranscript);
