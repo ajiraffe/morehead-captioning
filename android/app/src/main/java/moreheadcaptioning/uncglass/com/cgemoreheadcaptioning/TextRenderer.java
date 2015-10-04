@@ -16,6 +16,7 @@ import java.util.TimerTask;
 /**
  * Created by adam on 11/14/14.
  */
+//Hugh is helping
 public class TextRenderer implements Runnable{
     private static String filepath = "/sdcard/DCIM/Camera/";
     //use Environment.getExternalStorageDirectory().getPath()?
